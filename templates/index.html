@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <h1>SyKy</h1>
+    <a href="https://github.com/OlegEgoism/SyKy">GitHub проект</a>
+    <div class="code-display">
+        <h2>Текущий код:</h2>
+        <div class="code" id="current-code">{{ current_code }}</div>
+        <div class="timer" id="time-left">Оставшееся время: {{ time_left }}s</div>
+    </div>
+
+    <form method="post" class="secret-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="secret">Введите свой секретный ключ:</label>
+            <input type="text" id="secret" name="secret" value="{{ secret }}" required>
+        </div>
+        <button type="submit">Генерировать код</button>
+    </form>
+
+    <div class="verify-section">
+        <h2>Проверьте код</h2>
+        <form method="post" action="{% url 'verify_code' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="code">Введите код для проверки:</label>
+                <input type="text" id="code" name="code" required>
+            </div>
+            <button type="submit">Проверьте код</button>
+        </form>
+    </div>
+{% endblock %}
